@@ -66,12 +66,12 @@ export default {
     \================================================================================================*/
     client: null,
     async createClient() {
-        const { domain, customDomain, SPAClientId: client_id, afterNotSignInPageId } = this.settings.publicData;
+        const { domain, customDomain, SPAClientId: client_id, afterSignInPageId } = this.settings.publicData;
         if ((!domain && !customDomain) || !client_id) return;
 
         /* wwEditor:start */
         const website = wwLib.wwWebsiteData.getInfo();
-        const page = wwLib.wwWebsiteData.getPages().find(page => page.id === afterNotSignInPageId);
+        const page = wwLib.wwWebsiteData.getPages().find(page => page.id === afterSignInPageId);
         const isHomePage = page && page.id === website.homePageId;
         const redirectUriEditor =
             page && !isHomePage
@@ -88,7 +88,7 @@ export default {
         /* wwEditor:end */
         /* wwFront:start */
         const defaultLang = wwLib.wwWebsiteData.getInfo().langs.find(lang => lang.default)
-        const pagePath = wwLib.wwPageHelper.getPagePath(afterNotSignInPageId, defaultLang.lang);
+        const pagePath = wwLib.wwPageHelper.getPagePath(afterSignInPageId, defaultLang.lang);
         this.client = await createAuth0Client({
             domain: customDomain || domain,
             client_id,
